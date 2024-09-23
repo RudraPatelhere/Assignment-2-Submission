@@ -10,18 +10,19 @@ struct STUDENT_DATA
     std::string LAST_NAME;   // Variable to store the student's last name
 };
 
-// Declare a vector to store all the student data
-std::vector<STUDENT_DATA> students;
+std::vector<STUDENT_DATA> students;  // Declare a vector to store all the student data
 
 // Function to load student data from the given file
 void LOAD_STUDENTS_DATA(const std::string& fileName)
 {
-    std::ifstream SOURCE_FILE(fileName);  // Open the file with the given file name
+    std::ifstream SOURCE_FILE(fileName);  // This will open the file with the given file name
     std::string LINE;  // Variable to hold each line read from the file
 
+    // Check if the file opened successfully
     if (SOURCE_FILE.is_open())
     {
-        while (getline(SOURCE_FILE, LINE))  // Read each line from the file
+        // Loop through each line in the file
+        while (getline(SOURCE_FILE, LINE))
         {
             std::stringstream SPLIT_LINE(LINE);  // Create a stringstream to split the line into parts
             std::string FIRST_NAME;  // Variable to hold the first name
@@ -31,30 +32,37 @@ void LOAD_STUDENTS_DATA(const std::string& fileName)
             if (getline(SPLIT_LINE, FIRST_NAME, ',') &&
                 getline(SPLIT_LINE, LAST_NAME))
             {
-                STUDENT_DATA student;
-                student.FIRST_NAME = FIRST_NAME;  // Set the first name
-                student.LAST_NAME = LAST_NAME;    // Set the last name
+                STUDENT_DATA student;  // Create an instance of STUDENT_DATA
+                student.FIRST_NAME = FIRST_NAME;  // Set the first name of the student
+                student.LAST_NAME = LAST_NAME;    // Set the last name of the student
 
-                students.push_back(student);  // Add the student to the vector
+                // Push the student object into the vector
+                students.push_back(student);
             }
         }
         SOURCE_FILE.close();  // Close the file after fetching all the data
     }
-    else
+    else  // Error message if something went wrong
     {
-        std::cout << "Cannot open the file: " << fileName << std::endl;  // Error message if file cannot be opened
+        std::cout << "Oops, something went wrong. Cannot open the file: " << fileName << std::endl;
     }
 }
 
 int main()
 {
-    LOAD_STUDENTS_DATA("StudentData.txt");  // Load student data from the file
+#ifdef _DEBUG
+    std::cout << "Running in Debug mode" << std::endl;  // Print a message for debug mode
+    // Load data
+    LOAD_STUDENTS_DATA("StudentData.txt");
 
-    // Print all the student information
+    // Print the student data to verify it was loaded correctly
     for (const auto& student : students)
     {
         std::cout << "First Name: " << student.FIRST_NAME << ", Last Name: " << student.LAST_NAME << std::endl;
     }
+#else
+    std::cout << "This is standard mode" << std::endl;  // Message for non-debug mode
+#endif
 
-    return 0;  // Exit the program
+    return 1;  // Return 1 to indicate successful execution
 }
