@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#define PRE_RELEASE true // if we don't want to use PRE_RELEASE we can comment it out.
 
 // This struct will hold the student's first name, last name, and email (email which will included in pre-release mode)
 struct STUDENT_DATA
